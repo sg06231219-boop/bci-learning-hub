@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BCI嵌入式实战项目列表 - 15个从入门到专家的BCI实战项目，覆盖EEG信号采集、运动想象、边缘AI推理">
+<meta property="og:title" content="实战项目列表 - BCI学习枢纽">
+<meta property="og:description" content="15个从入门到专家的BCI实战项目">
+<meta property="og:type" content="website">
+<title>实战项目列表 - BCI学习枢纽</title>
+<link rel="stylesheet" href="css/style.css">
+<style>.topbar-nav{display:flex;gap:8px;align-items:center}
+.topbar-nav a{color:var(--a);text-decoration:none;font-size:.82em;padding:4px 10px;border-radius:6px;transition:all .15s}
+.topbar-nav a:hover{background:rgba(108,140,255,.08)}
+.pj-filter{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.pj-fbtn{padding:5px 12px;border:1px solid var(--br);border-radius:16px;font-size:.78em;cursor:pointer;background:var(--bg2);color:var(--t2);transition:all .15s}
+.pj-fbtn:hover,.pj-fbtn.active{border-color:var(--a);color:var(--a);background:rgba(108,140,255,.08)}
+.pj-card{background:linear-gradient(135deg,var(--bg2),#151535);border:1px solid var(--br);border-radius:14px;padding:20px 24px;margin:14px 0;transition:all .25s}
+.pj-card:hover{border-color:var(--a);box-shadow:0 4px 16px rgba(108,140,255,.08)}
+.pj-card .pj-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.pj-card .pj-title{font-weight:700;color:var(--a);font-size:1.05em}
+.pj-card .pj-num{font-size:.82em;color:var(--p);font-weight:700}
+.pj-card .pj-diff{display:flex;align-items:center;gap:6px}
+.pj-card .pj-dots{display:flex;gap:2px}
+.pj-card .pj-dots .dot{width:8px;height:8px;border-radius:50%;background:var(--br)}
+.pj-card .pj-dots .dot.on{background:var(--g)}
+.pj-card .pj-dots.d2 .dot.on{background:var(--a)}
+.pj-card .pj-dots.d3 .dot.on{background:var(--o)}
+.pj-card .pj-dots.d4 .dot.on{background:var(--r)}
+.pj-card .pj-dots.d5 .dot.on{background:var(--r)}
+.pj-card .pj-desc{font-size:.82em;color:var(--t2);line-height:1.7;margin:8px 0}
+.pj-card .pj-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.pj-card .pj-meta span{display:inline-flex;align-items:center;gap:3px;font-size:.72em;color:var(--t2)}
+.pj-card .pj-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.68em;background:rgba(108,140,255,.12);color:var(--a)}
+.pj-card .pj-lv{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.68em;font-weight:700}
+.pj-card .pj-lv.lv1{background:rgba(64,192,112,.12);color:var(--g)}
+.pj-card .pj-lv.lv2{background:rgba(108,140,255,.12);color:var(--a)}
+.pj-card .pj-lv.lv3{background:rgba(240,160,64,.12);color:var(--o)}
+.pj-card .pj-lv.lv4{background:rgba(255,85,102,.12);color:var(--r)}
+.border-lv1{border-left:3px solid var(--g)}
+.border-lv2{border-left:3px solid var(--a)}
+.border-lv3{border-left:3px solid var(--o)}
+.border-lv4{border-left:3px solid var(--r)}
+</style>
+</head>
+<body style="margin-left:0">
+<header class="topbar" style="position:sticky;top:0">
+  <div class="topbar-nav"><strong>🧠 BCI学习枢纽</strong> <a href="index.html">← 返回首页</a> <span style="color:var(--t2);font-size:.82em">/ 🚀 实战项目列表</span></div>
+</header>
+<main class="content" style="max-width:900px;margin:0 auto;padding:24px 28px 80px">
+<h1 style="text-align:center">🚀 实战项目列表</h1>
+<p style="text-align:center;color:var(--t2);margin-bottom:24px">15个从入门到前沿的BCI嵌入式实战项目</p>
+
+<div class="pj-filter">
+  <span class="pj-fbtn active" onclick="filterProj('all')">全部 (15)</span>
+  <span class="pj-fbtn" onclick="filterProj('Lv.1')">Lv.1 入门</span>
+  <span class="pj-fbtn" onclick="filterProj('Lv.2')">Lv.2 基础</span>
+  <span class="pj-fbtn" onclick="filterProj('Lv.3')">Lv.3 进阶</span>
+  <span class="pj-fbtn" onclick="filterProj('Lv.4')">Lv.4 高级</span>
+  <span class="pj-fbtn" onclick="filterProj('Lv.5')">Lv.5 专家</span>
+</div>
+
+<div id="pjList"></div>
+
+<p style="text-align:center;margin-top:30px"><a href="index.html" style="color:var(--a);font-size:1.1em">→ 返回首页开始学习</a></p>
+</main>
+
+<script src="js/projects.js"></script>
+<script>
+function filterProj(lv){
+  document.querySelectorAll('.pj-fbtn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderList(lv);
+}
+function renderList(filterLv='all'){
+  let data=PROJECTS;
+  if(filterLv!=='all'){
+    const lvNum=parseInt(filterLv.replace('Lv.',''));
+    data=PROJECTS.filter(p=>{
+      const levels=p.lv.replace('Lv.','').split('-').map(n=>parseFloat(n));
+      return levels.some(n=>Math.floor(n)===lvNum);
+    });
+  }
+  const list=document.getElementById('pjList');
+  if(data.length===0){
+    list.innerHTML='<p style="text-align:center;color:var(--t2);padding:30px">该等级暂无项目</p>';
+    return;
+  }
+  list.innerHTML=data.map(p=>{
+    const stars='⭐'.repeat(p.difficulty);
+    const borderClass='border-lv'+Math.min(p.difficulty,4);
+    const lvClass='lv'+Math.min(p.difficulty,4);
+    return `
+    <div class="pj-card ${borderClass}">
+      <div class="pj-header">
+        <span class="pj-num">#${p.id}</span>
+        <span class="pj-title">${p.title}</span>
+        <span class="pj-lv ${lvClass}">${p.lv}</span>
+      </div>
+      <div class="pj-desc">${p.desc}</div>
+      <div class="pj-meta">
+        <span>⏱ ${p.time}</span>
+        <span>💰 ${p.cost}</span>
+        <span>📊 难度: ${stars}</span>
+        ${p.tags.map(t=>`<span class="pj-tag">${t}</span>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+renderList();
+</script>
+</body>
+</html>
