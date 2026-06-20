@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="EEG头环硬件对比决策器 - 输入预算和用途，智能推荐最适合你的EEG设备。覆盖OpenBCI/Muse2/Neuralink等15+设备">
+<meta property="og:title" content="硬件对比决策器 - BCI学习枢纽">
+<meta property="og:description" content="EEG头环硬件对比决策器 - 智能推荐最适合你的EEG设备">
+<meta property="og:type" content="website">
+<title>硬件对比决策器 - BCI学习枢纽</title>
+<link rel="stylesheet" href="css/style.css">
+<style>.topbar-nav{display:flex;gap:8px;align-items:center}
+.topbar-nav a{color:var(--a);text-decoration:none;font-size:.82em;padding:4px 10px;border-radius:6px;transition:all .15s}
+.topbar-nav a:hover{background:rgba(108,140,255,.08)}
+.hw-tabs{display:flex;gap:6px;margin:16px 0;flex-wrap:wrap}
+.hw-tab{padding:8px 18px;border:1px solid var(--br);border-radius:10px;font-size:.82em;cursor:pointer;background:var(--bg2);color:var(--t2);transition:all .15s}
+.hw-tab:hover,.hw-tab.active{border-color:var(--a);color:var(--a);background:rgba(108,140,255,.08)}
+.hw-result-card{background:linear-gradient(135deg,var(--bg2),#151535);border:2px solid var(--a);border-radius:14px;padding:22px;margin:16px 0;animation:heroFadeIn .5s ease-out}
+.hw-result-card h3{color:var(--a);margin-bottom:6px;font-size:1.15em}
+.hw-result-card .hw-recommend-badge{display:inline-block;background:var(--g);color:#fff;padding:3px 10px;border-radius:12px;font-size:.72em;margin-left:8px}
+.hw-result-card .hw-spec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:12px 0}
+.hw-result-card .hw-spec-item{background:var(--bg3);border-radius:8px;padding:10px 12px}
+.hw-result-card .hw-spec-label{font-size:.68em;color:var(--t2)}
+.hw-result-card .hw-spec-value{font-size:.95em;color:var(--t);font-weight:600}
+.hw-result-card .hw-pros{color:var(--g);font-size:.78em;margin-top:8px}
+.hw-result-card .hw-cons{color:var(--r);font-size:.78em;margin-top:4px}
+@keyframes heroFadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body style="margin-left:0">
+<header class="topbar" style="position:sticky;top:0">
+  <div class="topbar-nav"><strong>🧠 BCI学习枢纽</strong> <a href="index.html">← 返回首页</a> <span style="color:var(--t2);font-size:.82em">/ 🔧 硬件对比决策器</span></div>
+</header>
+<main class="content" style="max-width:960px;margin:0 auto;padding:24px 28px 80px">
+<h1 style="text-align:center">🔧 EEG头环硬件对比决策器</h1>
+<p style="text-align:center;color:var(--t2)">输入预算和用途，智能推荐最适合你的EEG设备</p>
+
+<div class="hw-form">
+  <label>💰 你的预算范围</label>
+  <select id="hwBudget">
+    <option value="0">不限预算</option>
+    <option value="500">¥500以下（入门）</option>
+    <option value="1000">¥500-1000（消费级）</option>
+    <option value="2000">¥1000-2000（进阶消费级）</option>
+    <option value="4000">¥2000-4000（研究级）</option>
+    <option value="10000">¥4000+（专业/医疗级）</option>
+  </select>
+
+  <label>🎯 主要用途</label>
+  <select id="hwUsage">
+    <option value="">不限用途</option>
+    <option value="入门体验">入门体验 / 好奇心驱动</option>
+    <option value="专注度训练">专注度/放松度训练</option>
+    <option value="科研实验">科研实验 / 论文研究</option>
+    <option value="嵌入式开发">嵌入式开发 / DIY原型</option>
+    <option value="可穿戴">可穿戴 / 便携优先</option>
+    <option value="高密度">高密度EEG(16ch+)</option>
+    <option value="临床">临床/医疗康复</option>
+  </select>
+
+  <label>📡 偏好通道数</label>
+  <select id="hwChannels">
+    <option value="0">不限</option>
+    <option value="1">单通道（够用即可）</option>
+    <option value="4">4-7通道</option>
+    <option value="8">8-15通道</option>
+    <option value="16">16通道及以上</option>
+  </select>
+
+  <label>🔌 偏好接口</label>
+  <select id="hwInterface">
+    <option value="">不限</option>
+    <option value="BLE">BLE 蓝牙</option>
+    <option value="USB">USB 有线</option>
+    <option value="WiFi">WiFi</option>
+  </select>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="hw-btn" onclick="findHardware()">🔍 智能推荐</button>
+    <button class="hw-btn" style="background:var(--bg3);color:var(--t)" onclick="resetFilter()">↺ 重置</button>
+  </div>
+</div>
+
+<div id="hwResult"></div>
+
+<div class="hw-tabs">
+  <span class="hw-tab active" onclick="showAll();this.parentElement.querySelectorAll('.hw-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">📋 全部设备</span>
+  <span class="hw-tab" onclick="showType('非侵入式');this.parentElement.querySelectorAll('.hw-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">非侵入式</span>
+  <span class="hw-tab" onclick="showType('侵入式');this.parentElement.querySelectorAll('.hw-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">侵入式</span>
+</div>
+
+<div style="overflow-x:auto">
+<table class="hw-table" id="hwTable">
+<thead><tr><th>设备</th><th>价格</th><th>通道</th><th>采样率</th><th>接口</th><th>类型</th><th>电池</th><th>适用场景</th></tr></thead>
+<tbody id="hwTbody"></tbody></table>
+</div>
+</main>
+
+<script src="js/hardware.js"></script>
+<script>
+function renderTable(data){
+  const tbody=document.getElementById('hwTbody');
+  tbody.innerHTML=data.map(h=>`
+    <tr class="${h.name.includes('DIY')||h.name.includes('ADS1299')?'hw-recommend':''}">
+      <td><strong>${h.name}</strong><br><span style="font-size:.7em;color:var(--t2)">${h.electrode}</span></td>
+      <td>${h.priceStr}</td><td>${h.channels}</td><td>${h.sampleRate}</td><td>${h.interface}</td>
+      <td><span class="tag ${h.type.includes('侵入')?'red':'green'}">${h.type}</span></td>
+      <td>${h.battery}</td>
+      <td><span style="font-size:.75em">${h.use.join(', ')}</span></td>
+    </tr>
+  `).join('');
+}
+renderTable(HARDWARE);
+
+function showAll(){renderTable(HARDWARE);}
+function showType(type){renderTable(HARDWARE.filter(h=>h.type.includes(type)));}
+
+function findHardware(){
+  const budget=parseInt(document.getElementById('hwBudget').value)||999999;
+  const usage=document.getElementById('hwUsage').value;
+  const channels=parseInt(document.getElementById('hwChannels').value)||0;
+  const iface=document.getElementById('hwInterface').value;
+
+  let candidates=HARDWARE.slice();
+
+  // Budget filter - within 20% tolerance
+  if(budget<999999){
+    candidates=candidates.filter(h=>h.price<=budget*1.2);
+  }
+  // Usage filter
+  if(usage){
+    candidates=candidates.filter(h=>{
+      const allUses=h.use.join(' ')+' '+h.level+' '+h.type;
+      return allUses.includes(usage.replace('体验','')) || allUses.includes(usage.replace('训练',''));
+    });
+  }
+  // Channels filter  
+  if(channels>0){
+    if(channels===1)candidates=candidates.filter(h=>h.channels<=3);
+    else if(channels===4)candidates=candidates.filter(h=>h.channels>=4&&h.channels<=7);
+    else if(channels===8)candidates=candidates.filter(h=>h.channels>=8&&h.channels<=15);
+    else if(channels===16)candidates=candidates.filter(h=>h.channels>=16);
+  }
+  // Interface filter
+  if(iface){candidates=candidates.filter(h=>h.interface.includes(iface));}
+
+  const result=document.getElementById('hwResult');
+  if(candidates.length===0){
+    result.innerHTML=`<div class="hw-result-card" style="border-color:var(--r)"><h3>😔 未找到匹配设备</h3><p style="color:var(--t2)">尝试放宽筛选条件。</p></div>`;
+    return;
+  }
+
+  // Sort: best match first (consider price proximity and channels)
+  candidates.sort((a,b)=>a.price-b.price);
+
+  const best=candidates[0];
+  const alt=candidates.slice(1,4);
+
+  result.innerHTML=`
+    <div class="hw-result-card">
+      <h3>⭐ 最佳推荐: ${best.name} <span class="hw-recommend-badge">推荐</span></h3>
+      <div class="hw-spec-grid">
+        <div class="hw-spec-item"><div class="hw-spec-label">💰 价格</div><div class="hw-spec-value" style="color:var(--g)">${best.priceStr}</div></div>
+        <div class="hw-spec-item"><div class="hw-spec-label">📡 通道数</div><div class="hw-spec-value">${best.channels}</div></div>
+        <div class="hw-spec-item"><div class="hw-spec-label">⚡ 采样率</div><div class="hw-spec-value">${best.sampleRate}</div></div>
+        <div class="hw-spec-item"><div class="hw-spec-label">🔌 接口</div><div class="hw-spec-value">${best.interface}</div></div>
+        <div class="hw-spec-item"><div class="hw-spec-label">🔋 电池</div><div class="hw-spec-value">${best.battery}</div></div>
+        <div class="hw-spec-item"><div class="hw-spec-label">🏷️ 类型</div><div class="hw-spec-value">${best.type} · ${best.level}</div></div>
+      </div>
+      <p><strong>适用场景：</strong>${best.use.join('、')}</p>
+      <p><strong>电极：</strong>${best.electrode}</p>
+      <div class="hw-pros">✅ 优势: ${best.pros}</div>
+      <div class="hw-cons">⚠️ 局限: ${best.cons}</div>
+    </div>
+    ${alt.length>0?`<h3 style="margin-top:20px">🔄 备选方案</h3>`:''}
+    ${alt.map(a=>`
+    <div class="hw-result-card" style="border-color:var(--br)">
+      <h3>${a.name}</h3>
+      <p style="color:var(--t2);font-size:.82em">💰 ${a.priceStr} · 📡 ${a.channels}通道 · ⚡ ${a.sampleRate} · 🔌 ${a.interface}</p>
+      <div class="hw-pros">✅ ${a.pros}</div>
+      <div class="hw-cons">⚠️ ${a.cons}</div>
+    </div>`).join('')}
+  `;
+}
+
+function resetFilter(){
+  document.getElementById('hwBudget').value='0';
+  document.getElementById('hwUsage').value='';
+  document.getElementById('hwChannels').value='0';
+  document.getElementById('hwInterface').value='';
+  document.getElementById('hwResult').innerHTML='';
+  renderTable(HARDWARE);
+}
+</script>
+</body>
+</html>
