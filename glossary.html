@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BCI/嵌入式术语词典 - 60+条核心术语，支持拼音检索和分类浏览，覆盖芯片、硬件、算法、概念、产品、标准六大类别">
+<meta property="og:title" content="术语词典 - BCI学习枢纽">
+<meta property="og:description" content="BCI/嵌入式术语词典 - 60+条核心术语">
+<meta property="og:type" content="website">
+<title>术语词典 - BCI学习枢纽</title>
+<link rel="stylesheet" href="css/style.css">
+<style>.glossary-alphabet{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0}
+.ga-btn{padding:6px 14px;border:1px solid var(--br);border-radius:8px;font-size:.82em;cursor:pointer;background:var(--bg2);color:var(--t2);transition:all .15s;font-weight:700}
+.ga-btn:hover,.ga-btn.active{border-color:var(--a);color:var(--a);background:rgba(108,140,255,.08)}
+.topbar-nav{display:flex;gap:8px;align-items:center}
+.topbar-nav a{color:var(--a);text-decoration:none;font-size:.82em;padding:4px 10px;border-radius:6px;transition:all .15s}
+.topbar-nav a:hover{background:rgba(108,140,255,.08)}</style>
+</head>
+<body style="margin-left:0">
+<header class="topbar" style="position:sticky;top:0">
+  <div class="topbar-nav"><strong>🧠 BCI学习枢纽</strong> <a href="index.html">← 返回首页</a> <span style="color:var(--t2);font-size:.82em">/ 📖 术语词典 (60+条)</span></div>
+</header>
+<main class="content" style="max-width:900px;margin:0 auto;padding:24px 28px 80px">
+<h1 style="text-align:center">📖 BCI/嵌入式术语词典</h1>
+<p style="text-align:center;color:var(--t2)">60+条核心术语 · 支持拼音检索和分类浏览</p>
+
+<div class="glossary-search"><input type="text" id="gsInput" placeholder="🔍 搜索术语（支持中文/英文/拼音首字母）..." oninput="filterGlossary()"></div>
+
+<div class="glossary-alphabet" id="gAlpha"></div>
+
+<div class="glossary-filter" id="gCatFilter"></div>
+
+<div id="glossaryList"></div>
+</main>
+
+<script src="js/glossary.js"></script>
+<script>
+// Count by initial
+const initCounts={};
+GLOSSARY.forEach(g=>{const py=g.py[0].toUpperCase();initCounts[py]=(initCounts[py]||0)+1;});
+const alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const alphaDiv=document.getElementById('gAlpha');
+alphabet.split('').forEach(l=>{
+  const count=initCounts[l]||0;
+  alphaDiv.innerHTML+=`<span class="ga-btn" onclick="filterByPy('${l}')" style="${count===0?'opacity:.3':''}">${l}<span style="font-size:.65em;margin-left:2px">${count||''}</span></span>`;
+});
+
+// Categories
+const cats=[...new Set(GLOSSARY.map(g=>g.cat))];
+const catDiv=document.getElementById('gCatFilter');
+catDiv.innerHTML='<span class="gf-btn active" onclick="filterByCat(\'all\',this)">全部</span>';
+cats.forEach(c=>{
+  catDiv.innerHTML+=`<span class="gf-btn" onclick="filterByCat('${c}',this)">${c}</span>`;
+});
+
+let currentPy=null,currentCat='all';
+function filterByPy(py){currentPy=py;renderList();}
+function filterByCat(cat,btn){
+  currentCat=cat;
+  document.querySelectorAll('#gCatFilter .gf-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  currentPy=null;
+  renderList();
+}
+
+function filterGlossary(){
+  renderList();
+}
+
+function renderList(){
+  const q=(document.getElementById('gsInput').value||'').toLowerCase();
+  let filtered=GLOSSARY;
+  if(currentPy)filtered=filtered.filter(g=>g.py[0].toUpperCase()===currentPy);
+  if(currentCat!=='all')filtered=filtered.filter(g=>g.cat===currentCat);
+  if(q){
+    filtered=filtered.filter(g=>
+      g.term.toLowerCase().includes(q)||
+      g.en.toLowerCase().includes(q)||
+      g.desc.toLowerCase().includes(q)||
+      g.py.toLowerCase().includes(q)||
+      g.cat.includes(q)
+    );
+  }
+  const list=document.getElementById('glossaryList');
+  if(filtered.length===0){
+    list.innerHTML='<p style="text-align:center;color:var(--t2);padding:30px">未找到匹配的术语</p>';
+    return;
+  }
+  list.innerHTML=filtered.map(g=>`
+    <div class="glossary-item" id="term-${g.term}">
+      <div>
+        <span class="gi-term">${g.term}</span>
+        <span class="gi-en">${g.en}</span>
+        <span class="gi-cat">${g.cat}</span>
+      </div>
+      <div class="gi-desc">${g.desc}</div>
+    </div>
+  `).join('');
+
+  // Update active alpha button
+  document.querySelectorAll('.ga-btn').forEach(b=>b.classList.remove('active'));
+  if(currentPy){const btn=document.querySelector(`.ga-btn[onclick="filterByPy('${currentPy}')"]`);if(btn)btn.classList.add('active');}
+}
+
+renderList();
+</script>
+</body>
+</html>
