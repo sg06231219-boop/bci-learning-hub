@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="生物脑机接口(BCI)嵌入式学习路线总览 - 22章+7附录，6级渐进路线，对标Neuralink/OpenBCI/博睿康全球最前沿">
+<meta property="og:title" content="学习路线总览 - BCI学习枢纽">
+<meta property="og:description" content="生物脑机接口(BCI)嵌入式学习路线总览 - 22章+7附录，6级渐进">
+<meta property="og:type" content="website">
+<title>学习路线总览 - BCI学习枢纽</title>
+<link rel="stylesheet" href="css/style.css">
+<style>.lv-card{background:linear-gradient(135deg,var(--bg2),#151535);border:1px solid var(--br);border-radius:14px;padding:20px 24px;margin:14px 0}
+.lv-card h3{color:var(--a);margin-bottom:8px;font-size:1.1em}
+.lv-card .lv-time{font-size:.78em;color:var(--o);margin-bottom:8px}
+.lv-card .lv-items{list-style:none;padding:0}
+.lv-card .lv-items li{padding:3px 0;font-size:.82em;color:var(--t2);line-height:1.7}
+.lv-card .lv-items li::before{content:'✅ ';color:var(--g);font-size:.9em}
+.lv-card.s0{border-left:3px solid var(--a)}
+.lv-card.s1{border-left:3px solid var(--c1)}
+.lv-card.s2{border-left:3px solid var(--g)}
+.lv-card.s3{border-left:3px solid var(--o)}
+.lv-card.s4{border-left:3px solid var(--p)}
+.lv-card.s5{border-left:3px solid var(--r)}
+.lv-card.s6{border-left:3px solid var(--a)}
+.timeline{position:relative;padding-left:30px;margin:20px 0}
+.timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--a),var(--p),var(--g),var(--o),var(--r),var(--a))}
+.tl-item{position:relative;margin-bottom:24px;padding-left:24px}
+.tl-item::before{content:'';position:absolute;left:-22px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--bg2);border:2px solid var(--br)}
+.tl-item .tl-lv{font-size:.72em;color:var(--a);font-weight:700;margin-bottom:2px}
+.tl-item .tl-title{font-size:.95em;font-weight:600;color:var(--t)}
+.tl-item .tl-time{font-size:.7em;color:var(--t2)}
+.tl-item .tl-desc{font-size:.78em;color:var(--t2);margin-top:4px;line-height:1.6}
+.topbar-nav{display:flex;gap:8px;align-items:center}
+.topbar-nav a{color:var(--a);text-decoration:none;font-size:.82em;padding:4px 10px;border-radius:6px;transition:all .15s}
+.topbar-nav a:hover{background:rgba(108,140,255,.08)}</style>
+</head>
+<body style="margin-left:0">
+<header class="topbar" style="position:sticky;top:0">
+  <div class="topbar-nav"><strong>🧠 BCI学习枢纽</strong> <a href="index.html">← 返回首页</a> <span style="color:var(--t2);font-size:.82em">/ 📊 学习路线总览</span></div>
+</header>
+<main class="content" style="max-width:900px;margin:0 auto;padding:24px 28px 80px">
+<h1 style="text-align:center">📊 生物脑机嵌入式学习路线总览</h1>
+<p style="text-align:center;color:var(--t2);margin-bottom:24px">v5.0 · 22章+7附录 · 6级渐进路线 · 对标全球最前沿</p>
+
+<div class="home-stats">
+  <div class="home-stat"><div class="num">22</div><div class="label">核心章节</div></div>
+  <div class="home-stat"><div class="num">7</div><div class="label">附录资料</div></div>
+  <div class="home-stat"><div class="num">60+</div><div class="label">术语词条</div></div>
+  <div class="home-stat"><div class="num">6级</div><div class="label">学习等级</div></div>
+  <div class="home-stat"><div class="num">6月</div><div class="label">速成路线</div></div>
+</div>
+
+<h2>🎯 核心原则</h2>
+<div class="note">
+<strong>16条核心原则：</strong><br>
+1. 先非侵入再侵入 — 安全合法，EEG先跑通再想皮层<br>
+2. 先Python再C — 算法验证Python，实时实现C<br>
+3. 先开源再自制 — OpenBCI/MNE等成熟生态先用起来<br>
+4. 先跑通再优化 — 能动了再搞功耗/速度/精度<br>
+5. 先模仿再创造 — 复现BCI Competition前3名方案<br>
+6. 嵌入式是骨架，信号处理是灵魂，AI是大脑<br>
+7. 紧跟国际前沿 — Neuralink架构/OpenBCI源码/SOTA论文<br>
+8. 延迟低于100ms是及格线<br>
+9. 个体差异是最大的敌人 — 必须个性化校准<br>
+10. 端侧推理是隐私的保障 — 脑电数据不出设备
+</div>
+
+<h2>📈 6级学习进阶时间线</h2>
+<div class="timeline">
+  <div class="tl-item"><div class="tl-lv">Lv.0</div><div class="tl-title">环境搭建 + C语言热身</div><div class="tl-time">⏱ 1-2周</div><div class="tl-desc">ARM GCC + CMake + OpenOCD安装；STM32最小系统点亮LED；C语言回顾。开发板：STM32F103C8T6 (¥10-15)。</div></div>
+  <div class="tl-item"><div class="tl-lv">Lv.1</div><div class="tl-title">基本外设 + 裸机开发</div><div class="tl-time">⏱ 1-2月</div><div class="tl-desc">GPIO/UART/TIM/I2C基础外设驱动。项目：LED流水灯、串口Hello World、OLED显示。对标OpenBCI Ganglion固件入门。</div></div>
+  <div class="tl-item"><div class="tl-lv">Lv.2</div><div class="tl-title">ADC + DMA + 信号基础</div><div class="tl-time">⏱ 2-3月</div><div class="tl-desc">ADC连续采样→DMA双缓冲→实时波形显示。理解ADS1299 ΔΣ ADC原理。开发板：STM32F407 + AD8232。</div></div>
+  <div class="tl-item"><div class="tl-lv">Lv.3</div><div class="tl-title">数字信号处理 + CMSIS-DSP</div><div class="tl-time">⏱ 3-5月</div><div class="tl-desc">MCU上实时FFT、50Hz陷波FIR滤波器、α波功率检测。CMSIS-DSP 1024点FFT@168MHz≈1ms。</div></div>
+  <div class="tl-item"><div class="tl-lv">Lv.4</div><div class="tl-title">BCI全链路</div><div class="tl-time">⏱ 5-8月</div><div class="tl-desc">完整EEG BCI链条：电极→AFE→MCU→处理→BLE→分类输出。FreeRTOS多任务架构。对标OpenBCI完整方案。</div></div>
+  <div class="tl-item"><div class="tl-lv">Lv.5</div><div class="tl-title">边缘AI + 闭环BCI</div><div class="tl-time">⏱ 8-12月</div><div class="tl-desc">TFLite Micro推理EEGNet(6000参数,<12KB)。实时运动想象闭环。OTA升级。模型量化FP32→INT8。</div></div>
+  <div class="tl-item"><div class="tl-lv">Lv.6</div><div class="tl-title">前沿BCI系统设计</div><div class="tl-time">⏱ 1年+</div><div class="tl-desc">五大方向：A.大模型+BCI B.侵入式信号处理 C.多模态BCI D.柔性电子+可穿戴 E.ASIC+FPGA定制。</div></div>
+</div>
+
+<h2>🛣️ 6个月快速行动路线图</h2>
+<div class="lv-card s0"><h3>第1-4周：环境搭建 + 基础外设</h3><div class="lv-time">⏱ 第1月</div>
+<ul class="lv-items"><li>ARM GCC + CMake + OpenOCD 安装测试</li><li>GPIO/UART/TIM/I2C驱动</li><li>SSD1306 OLED显示</li><li>STM32F103C8T6 + ST-Link V2</li></ul></div>
+
+<div class="lv-card s1"><h3>第5-8周：ADC + BCI信号链入门</h3><div class="lv-time">⏱ 第2月</div>
+<ul class="lv-items"><li>ADC + TIM触发 + DMA双缓冲采集</li><li>AD8232心电模块ECG采集</li><li>MNE-Python预处理（滤波+ICA+PSD）</li><li><strong>小突破</strong>：生物电→嵌入式采集→PC处理全链路</li></ul></div>
+
+<div class="lv-card s2"><h3>第9-12周：EEG专项</h3><div class="lv-time">⏱ 第3月</div>
+<ul class="lv-items"><li>BCI Competition IV-2a：CSP+LDA分类</li><li>EEGNet论文复现+训练</li><li>模型量化：TF→TFLite INT8→C数组</li></ul></div>
+
+<div class="lv-card s3"><h3>第13-16周：嵌入式实时处理</h3><div class="lv-time">⏱ 第4月</div>
+<ul class="lv-items"><li>CMSIS-DSP：MCU上1024点FFT < 5ms</li><li>TF Lite Micro移植到STM32H7</li><li><strong>关键里程碑</strong>：MCU跑通ADC→FFT→EEGNet推理</li></ul></div>
+
+<div class="lv-card s4"><h3>第17-20周：无线BCI原型</h3><div class="lv-time">⏱ 第5月</div>
+<ul class="lv-items"><li>BLE移植（nRF52840/ESP-IDF）</li><li>双通道EEG采集→BLE→PC显示</li><li>FreeRTOS多任务架构</li></ul></div>
+
+<div class="lv-card s5"><h3>第21-24周：闭环项目</h3><div class="lv-time">⏱ 第6月</div>
+<ul class="lv-items"><li>闭环BCI：α波增强→LED反馈</li><li>运动想象原型：左/右手→LED指示</li><li>性能评估：延迟<300ms，准确率>75%</li></ul></div>
+
+<h2>🏆 6个月后达到的水平</h2>
+<div class="tip">
+<strong>你将能够：</strong><br>
+✅ 独立搭建8通道非侵入式BCI原型（¥500-1000成本）<br>
+✅ 在MCU上实现实时运动想象分类（>75%准确率）<br>
+✅ 掌握ADS1299/AD8232等AFE芯片驱动开发<br>
+✅ BLE/WiFi无线传输 + 配套上位机开发<br>
+✅ 理解侵入式BCI架构原理，具备独立深钻能力<br>
+✅ 达到BCI企业嵌入式实习生/初级工程师水平
+</div>
+
+<p style="text-align:center;margin-top:30px"><a href="index.html" style="color:var(--a);font-size:1.1em">→ 返回首页开始学习</a></p>
+</main>
+</body>
+</html>
