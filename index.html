@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="生物脑机接口(BCI)嵌入式学习路线 - 从零到专家。22章系统教程+7个附录，对标Neuralink/OpenBCI/博睿康全球最前沿。">
+<meta name="theme-color" content="#0a0a1a">
+<title>BCI学习枢纽 - 生物脑机接口嵌入式学习路线</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<a class="skip-link" href="#contentArea">跳转到内容</a>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>🧠 BCI学习枢纽</h1>
+    <p>生物脑机接口嵌入式学习路线</p>
+    <span class="version">v1.0.1 · 22章+7附录</span>
+  </div>
+  <div class="sidebar-nav" id="sidebarNav"></div>
+  <div class="bookmarks-section" id="bookmarksSection" style="display:none">
+    <div class="bookmarks-title">⭐ 收藏夹 <span class="bookmarks-count" id="bmCount">0</span></div>
+    <div id="bookmarkList"></div>
+  </div>
+  <div class="sidebar-footer">
+    <span class="progress-mini">📊 <span class="pm-bar"><span class="pm-fill" style="width:0%" id="pmFill"></span></span></span>
+    <button class="theme-toggle" onclick="window.app.toggleTheme()" title="切换亮色/暗色">🌙</button>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <button class="menu-btn" onclick="window.app.toggleSidebar()">☰</button>
+    <div class="breadcrumb" id="breadcrumb">🧠 BCI学习枢纽 · 首页</div>
+    <div class="search-box">
+      <span class="icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="搜索22章内容... (按 / )">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <button class="mobile-search-btn" onclick="document.querySelector('.search-box').classList.toggle('open')" title="搜索">🔍</button>
+    <button class="focus-btn" onclick="window.app.toggleFocus()" title="专注阅读 (Ctrl+Shift+F)">📖 专注</button>
+  </div>
+  <div class="content" id="contentArea"></div>
+</div>
+
+<!-- TOC Sidebar -->
+<nav id="tocSidebar"><div class="toc-title">📑 本节目录</div><div id="tocLinks"></div></nav>
+
+<!-- Back to top -->
+<div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<!-- Shortcuts overlay -->
+<div class="shortcuts-overlay" id="shortcutsOverlay" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="shortcuts-panel">
+    <h3>⌨️ 键盘快捷键 <button class="close-btn" onclick="document.getElementById('shortcutsOverlay').classList.remove('show')">✕</button></h3>
+    <div class="kbd-row"><span><span class="kbd-key">/</span> 搜索</span><span class="kbd-desc">聚焦搜索栏</span></div>
+    <div class="kbd-row"><span><span class="kbd-key">Esc</span> 关闭</span><span class="kbd-desc">关闭面板/清空搜索</span></div>
+    <div class="kbd-row"><span><span class="kbd-key">←</span><span class="kbd-key">→</span> 翻章</span><span class="kbd-desc">前一章/后一章</span></div>
+    <div class="kbd-row"><span><span class="kbd-key">?</span> 快捷键</span><span class="kbd-desc">显示此面板</span></div>
+    <div class="kbd-row"><span><span class="kbd-key">Ctrl</span>+<span class="kbd-key">Shift</span>+<span class="kbd-key">F</span> 专注</span><span class="kbd-desc">切换专注阅读模式</span></div>
+  </div>
+</div>
+
+<script src="js/chapters.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
